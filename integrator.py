@@ -1,3 +1,5 @@
+import numpy as np
+
 class IntegratorSuite:
     """
     From-scratch integrator
@@ -8,15 +10,15 @@ class IntegratorSuite:
         self.lower = lower_bound
         self.upper = upper_bound
 
-    def euler(self, step_size=1e-6):
+    def euler(self, equation, initial_value, lower_bound, upper_bound, step_size=1e-6):
         """
         Integrate using Euler method
         """
-        current_x = self.lower
-        current_y = self.initial
-        steps = (self.upper - self.lower) / step_size
-        for _ in range(steps):
-            current_y += step_size * self.equation(current_x, current_y)
+        current_x = lower_bound
+        current_y = initial_value
+        steps = (upper_bound - lower_bound) / step_size
+        for _ in np.arange(steps):
+            current_y += step_size * equation(current_x, current_y)
             current_x += step_size
         return current_y
 
@@ -27,7 +29,7 @@ class IntegratorSuite:
         current_x = self.lower
         current_y = self.initial
         steps = (self.upper - self.lower) / step_size
-        for _ in range(steps):
+        for _ in np.arange(steps):
             k1 = self.equation(current_x, current_y)
             k2 = self.equation(current_x + step_size * 0.5, current_y + step_size * k1 * 0.5)
             current_y += step_size * k2
@@ -41,7 +43,7 @@ class IntegratorSuite:
         current_x = self.lower
         current_y = self.initial
         steps = (self.upper - self.lower) / step_size
-        for _ in range(steps):
+        for _ in np.arange(steps):
             k1 = self.equation(current_x, current_y)
             k2 = self.equation(current_x + step_size * 0.5, current_y + step_size * k1 * 0.5)
             k3 = self.equation(current_x + step_size * 0.5, current_y + step_size * k2 * 0.5)
